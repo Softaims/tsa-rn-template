@@ -4,7 +4,7 @@ import { AuthStack } from './stacks';
 import { HomeTabs } from './tabs';
 import * as SplashScreen from 'expo-splash-screen';
 import useAuthStore from '../store/useAuthStore';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, TextInput, View } from 'react-native';
 import useThemeStore from '../store/useThemeStore';
 
 SplashScreen.preventAutoHideAsync(); // keep native splash visible
