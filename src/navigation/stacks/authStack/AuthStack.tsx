@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthScreen } from '../../../screens';
-import { Text } from 'react-native';
 
 const Stack = createStackNavigator();
 
