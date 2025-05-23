@@ -1,3 +1,1 @@
-import AuthStack from "./AuthStack";
-
-export default AuthStack;
+export * from "./AuthStack";

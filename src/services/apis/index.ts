@@ -3,11 +3,11 @@ import {
   removeTokenSecurely,
   retrieveTokenSecurely,
   storeTokenSecurely,
-} from '../utils';
+} from '../../utils';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://',
-  timeout: 10000,
+  baseURL: '...',
+  timeout: 20000,
 });
 
 const refreshAccessToken = async () => {
@@ -54,40 +54,48 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-// Interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
-  response => {
-    return response;
-  },
-  async error => {
-    console.log('[FAIL] -- Interceptor Response - ', error.response?.status);
-    const originalRequest = error.config;
-    console.log('originalRequest', originalRequest._retry);
+  response => response,
+  error => {
+    const genericMessage = 'Something went wrong.';
 
-    // Check if the error is due to an expired token
+    console.error('[INTERCEPTOR - ERROR] => ', {
+      message: error.message,
+      code: error.code,
+      response: error.response?.data?.message || error
+    });
+
+    // Network error (no response from server)
+    if (error.message === 'Network Error') {
+      error.userMessage = genericMessage;
+      return Promise.reject(error);
+    }
+
+    // Timeout or no response
+    if (error.code === 'ECONNABORTED' || !error.response) {
+      error.userMessage = genericMessage;
+      return Promise.reject(error);
+    }
+
+    // HTML response from server (like 404 HTML page)
     if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
+      typeof error.response.data === 'string' &&
+      error.response.data.startsWith('<')
     ) {
-      originalRequest._retry = true;
-      console.log('[FAIL] -- Interceptor Response - ', error.response?.status);
+      error.userMessage = genericMessage;
+      return Promise.reject(error);
+    }
 
-      try {
-        const newAccessToken = await refreshAccessToken();
-        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        // Handle token refresh failure (e.g., log out the user)
-        // Set User state to null
+    // Try to extract meaningful backend error message
+    const backendMessage = error.response?.data?.message;
 
-        await removeTokenSecurely();
-        return Promise.reject(refreshError);
-      }
+    if (typeof backendMessage === 'string') {
+      error.userMessage = backendMessage;
+    } else {
+      error.userMessage = genericMessage;
     }
 
     return Promise.reject(error);
-  },
+  }
 );
-
 export default axiosInstance;

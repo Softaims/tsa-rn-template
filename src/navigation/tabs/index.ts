@@ -1,5 +1,1 @@
-import HomeTabs from "./homeTabs";
-
-export {
-  HomeTabs
-};
+export * from './mainTabs';

@@ -1,14 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { AuthScreen } from '../../../screens';
+import { SplashScreen } from '../../../screens';
+import { AppRoutes } from '../../../types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppRoutes>();
 
-export default function MyStack() {
+export function AuthStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="auth-screen"
-        component={AuthScreen}
+        name="splash-screen"
+        component={SplashScreen}
         options={{
           headerShown: false,
         }}

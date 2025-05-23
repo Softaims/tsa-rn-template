@@ -1,28 +1,28 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React, { useMemo } from 'react'
-import useThemeStore from '../../store/useThemeStore'
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import useThemeStore from '../../store/useThemeStore';
+import { font_size, ThemeTypes } from '../../constants';
 
-export default function HomeScreen() {
-  const theme = useThemeStore((state) => state.theme)
-
-  const styles = useMemo(() => createStyles(theme), [theme])
+export function HomeScreen() {
+  const theme = useThemeStore(state => state.theme);
+  const styles = createStyles(theme);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>HomeScreen</Text>
+      <Text style={styles.title}>Home Screen</Text>
     </View>
-  )
+  );
 }
 
-const createStyles = (theme: { [key: string]: any }) => StyleSheet.create({
+const createStyles = (theme: ThemeTypes) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.background,
   },
-  text: {
-    fontSize: 32,
-    color: 'red',
-  },
-})
+  title:{
+    fontSize:font_size.XXL,
+    fontWeight:'bold',
+    color:theme.primary
+  }
+});

@@ -1,40 +1,33 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
+import React from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import useThemeStore from '../../store/useThemeStore';
+import { font_size, ThemeTypes } from '../../constants';
 
-export default function App() {
-  useEffect(() => {
-    const hideSplashScreen = async () => {
-      await SplashScreen.preventAutoHideAsync();
-
-      // //
-      // 💡 Replace setTimeout with Api calls
-      // //
-      setTimeout(async () => {
-        await SplashScreen.hideAsync();
-      }, 5000);
-    };
-
-    hideSplashScreen();
-  }, []);
+export function SplashScreen() {
+  const theme = useThemeStore(state => state.theme);
+  const styles = createStyles(theme);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>App Name</Text>
+      <Image source={require('../../../assets/images/logo.png')} style={styles.logo} />
+      <Text style={styles.title}>Splash Screen</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: ThemeTypes) => StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+  },
+  logo: {
+    width: 100,
+    height: 100
   },
   title: {
-    fontSize: 30,
+    fontSize: font_size.XXL,
     fontWeight: 'bold',
-    color: '#000000',
-  },
+    color: theme.primary
+  }
 });

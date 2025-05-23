@@ -1,6 +1,24 @@
 import { create } from "zustand";
 import { LIGHT_THEME, DARK_THEME } from "../constants";
 
+/**
+ * Theme store manages the application's theme state.
+ * Provides functionality to toggle between light and dark themes.
+ * 
+ * @example
+ * ```tsx
+ * // Access the current theme
+ * const theme = useThemeStore(state => state.theme);
+ * 
+ * // Toggle between light and dark theme
+ * const toggleTheme = useThemeStore(state => state.toggleTheme);
+ * 
+ * // Set a specific theme
+ * const setTheme = useThemeStore(state => state.setTheme);
+ * setTheme(true); // Set to dark theme
+ * ```
+ */
+
 interface ThemeStore {
   themeTag: string;
   theme: typeof LIGHT_THEME | typeof DARK_THEME;

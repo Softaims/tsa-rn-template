@@ -1,11 +1,14 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../../../screens';
+import { AppRoutes } from '../../../types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppRoutes>();
 
-export default function MyStack() {
+export function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerTitleAlign: 'center'
+    }}>
       <Stack.Screen
         name="home-screen"
         component={HomeScreen}

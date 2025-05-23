@@ -1,11 +1,15 @@
-import { StatusBar } from 'react-native';
 import Navigator from './src';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from './src/configs';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <>
-      {/* <StatusBar barStyle={themeTag==='light'? 'dark-content':'light-content'} /> */}
+    <QueryClientProvider client={queryClient}>
       <Navigator />
-    </>
+      <Toast config={toastConfig} />
+    </QueryClientProvider>
   );
 }
