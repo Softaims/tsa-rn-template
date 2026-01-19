@@ -1,6 +1,5 @@
 {
     "branches": [
-      "production",
       {
         "name": "development",
         "prerelease": "alpha"
@@ -12,7 +11,8 @@
       {
         "name": "staging",
         "prerelease": "beta.rc"
-      }
+      },
+      "production"
     ],
     "plugins": [
       [
