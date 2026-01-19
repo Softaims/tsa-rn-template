@@ -42,10 +42,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup git branch
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          echo "Setting up branch: $BRANCH_NAME"
+          git checkout -B "$BRANCH_NAME" || git checkout "$BRANCH_NAME"
+          git branch --set-upstream-to=origin/"$BRANCH_NAME" "$BRANCH_NAME" || true
+          echo "Current branch: $(git branch --show-current)"
+          echo "Git status:"
+          git status
+
+      - name: Verify branch context
+        run: |
+          echo "GitHub ref: ${{ github.ref }}"
+          echo "GitHub ref name: ${{ github.ref_name }}"
+          echo "Current branch: $(git branch --show-current)"
+          echo "Recent tags:"
+          git tag --sort=-v:refname | head -10
+
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+          GIT_AUTHOR_NAME: semantic-release[bot]
+          GIT_AUTHOR_EMAIL: semantic-release[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: semantic-release[bot]
+          GIT_COMMITTER_EMAIL: semantic-release[bot]@users.noreply.github.com
+        run: |
+          echo "Running semantic-release on branch: ${{ github.ref_name }}"
+          npx semantic-release --debug
 
       - name: Get new version
         id: version

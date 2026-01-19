@@ -12,7 +12,10 @@
         "name": "staging",
         "prerelease": "beta.rc"
       },
-      "production"
+      {
+        "name": "production",
+        "prerelease": false
+      }
     ],
     "plugins": [
       [
