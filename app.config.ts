@@ -1,6 +1,6 @@
 import { ConfigContext, ExpoConfig } from "expo/config";
 import { name, version } from "./package.json";
-
+ 
 type AppEnvironment = "development" | "preview" | "production";
 
 /**
