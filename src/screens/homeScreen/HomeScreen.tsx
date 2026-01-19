@@ -1,11 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import useThemeStore from '../../store/useThemeStore';
-import { font_size, ThemeTypes } from '../../constants';
+import { View, Text } from 'react-native';
+import { styles } from './styles';
 
 export function HomeScreen() {
-  const theme = useThemeStore(state => state.theme);
-  const styles = createStyles(theme);
 
   return (
     <View style={styles.container}>
@@ -13,16 +10,3 @@ export function HomeScreen() {
     </View>
   );
 }
-
-const createStyles = (theme: ThemeTypes) => StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title:{
-    fontSize:font_size.XXL,
-    fontWeight:'bold',
-    color:theme.primary
-  }
-});
